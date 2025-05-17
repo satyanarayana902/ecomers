@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>E-Commerce Catalog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+    /* Guaranteed fixed navbar solution */
+    body {
+      padding-top: 70px; /* Adjust based on your navbar height */
+      min-height: 100vh;
+     background-image: url('https://images.unsplash.com/photo-1523275335684-37898b6baf30');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .fixed-navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1030; /* Higher than Bootstrap's default */
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    }
+
+    .main-content {
+      position: relative;
+      z-index: 1;
+      min-height: calc(100vh - 70px);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'product_list' %}">E-Shop</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav ms-auto">
+          {% if user.is_authenticated %}
+            <li class="nav-item"><span class="nav-link">Hi {{ user.username }}!</span></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+            {% if user.is_superuser %}
+              <li class="nav-item"><a class="nav-link" href="{% url 'add_product' %}">Add Product</a></li>
+            {% endif %}
+          {% else %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">Sign Up</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="main-content">
+    <div class="container mt-4">
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      {% endfor %}
+
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+</body>
+</html>

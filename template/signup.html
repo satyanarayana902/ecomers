@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0 text-center">Register</h4>
+        </div>
+        <div class="card-body bg-light">
+          <form method="post" novalidate>
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" placeholder="Enter username" name="username" id="username" value="{{ request.POST.username }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address</label>
+              <input type="email" class="form-control" placeholder="Enter email" name="email" id="email" value="{{ request.POST.email }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" placeholder="Password" name="password" id="password">
+            </div>
+
+            <div class="mb-3">
+              <label for="confirm_password" class="form-label">Confirm Password</label>
+              <input type="password" class="form-control" placeholder="Confirm Password" name="confirm_password" id="confirm_password">
+            </div>
+
+            <div class="mb-3">
+              <label for="phone_Field" class="form-label">Phone Number</label>
+              <input type="text" class="form-control" placeholder="Phone Number" name="phone_Field" id="phone_Field" value="{{ request.POST.phone_Field }}">
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+          </form>
+
+          {% if messages %}
+            <div class="mt-3">
+              {% for message in messages %}
+                <div class="alert alert-danger" role="alert">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
